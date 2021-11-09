@@ -23,7 +23,7 @@ namespace RestaurantAPI.Middleware
 
             var elapsedMilliseconds = _stopWatch.ElapsedMilliseconds;
 
-            if (elapsedMilliseconds / 1000 > 4)
+            if (elapsedMilliseconds / 9000 > 4)
             { 
                 var message =
                         $"Request [{context.Request.Method}] at {context.Request.Path} tool {elapsedMilliseconds} ms";
