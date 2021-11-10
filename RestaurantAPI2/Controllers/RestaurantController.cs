@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantAPI.Models;
@@ -12,6 +13,8 @@ namespace RestaurantAPI.Controllers
     public class RestaurantController : ControllerBase
     {
         private readonly IRestaurantService _restaurantService;
+
+        public string ClaimsType { get; private set; }
 
         public RestaurantController(IRestaurantService restaurantService)
         {
@@ -38,13 +41,15 @@ namespace RestaurantAPI.Controllers
         //[Authorize(Roles = "Manager")]
         public ActionResult CreateRestaurant([FromBody] CreateRestaurantDto dto)
         {
+            var userId = int.Parse(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value);
             var id = _restaurantService.Create(dto);
 
             return Created($"api/restaurant/{id}", null);
         }
 
         [HttpGet]
-        [Authorize(Policy = "Atleast20")]
+        //[Authorize(Policy = "Atleast20")]
+        [Authorize(Policy = "CreatedAtleast2Restaurants")]
         //[Authorize(Policy = "HasNationality")]
         public ActionResult<IEnumerable<RestaurantDto>> GetAll()
         {
