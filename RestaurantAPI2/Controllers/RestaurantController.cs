@@ -48,8 +48,9 @@ namespace RestaurantAPI.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         //[Authorize(Policy = "Atleast20")]
-        [Authorize(Policy = "CreatedAtleast2Restaurants")]
+        //[Authorize(Policy = "CreatedAtleast2Restaurants")]
         //[Authorize(Policy = "HasNationality")]
         public ActionResult<IEnumerable<RestaurantDto>> GetAll([FromQuery]RestaurantQuery query)
         {
